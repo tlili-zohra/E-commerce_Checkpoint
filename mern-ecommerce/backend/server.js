@@ -6,7 +6,7 @@ import authRoutes from "./routes/auth.js";
 import productRoutes from "./routes/products.js";
 import cartRoutes from "./routes/cart.js";
 import orderRoutes from "./routes/orders.js";
-
+import path from "path";
 dotenv.config();
 
 const app = express();
@@ -27,3 +27,9 @@ mongoose
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   })
   .catch((err) => console.log(err));
+// Serve static files from React app
+app.use(express.static(path.join(__dirname, "../frontend/build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
+});
